@@ -9,7 +9,7 @@ Official repository for our paper, Your Agent Acts Differently When You're Aroun
 
 ## Paper
 
-📄 [arXiv link coming soon]
+📄 [arXiv](https://arxiv.org/abs/2610.36435)
 
 ## Citation
 
