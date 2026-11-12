@@ -1,0 +1,45 @@
+schema_version: 4
+id: pb-leak-price-01
+mechanic_family: price_bargaining
+public_context: A seller and prospective buyer are negotiating a 2019 Honda Civic listed for $15,000.
+roles:
+  party_1:
+    name: Honda Civic seller
+    public_description: You represent the seller of the 2019 Honda Civic.
+  party_2:
+    name: prospective car buyer
+    public_description: You are considering buying the listed Honda Civic.
+proposal:
+  description: A complete sale offer states the price.
+  fields:
+    price_usd:
+      label: sale price
+      type: number
+      unit: USD
+      minimum: 0
+payout:
+  mode: source_metric
+  units:
+    party_1: USD sale proceeds
+    party_2: USD saved from asking price
+  no_deal:
+    party_1: 0
+    party_2: 0
+  formulas:
+    party_1:
+      constant: 0
+      terms:
+        price_usd: 1
+    party_2:
+      constant: 15000
+      terms:
+        price_usd: -1
+  eligibility:
+    party_1:
+      field: price_usd
+      op: gte
+      value: 12000
+    party_2:
+      field: price_usd
+      op: lte
+      value: 15000

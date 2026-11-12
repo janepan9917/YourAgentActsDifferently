@@ -1,0 +1,95 @@
+# user_model_robustness: ultimatum, gpt-5.6-terra.
+# Logs: data/raw/user_model_robustness/single_user_comparison_ultimatum_gpt56terra_claude_sonnet5_as_user/
+sweep_id: single_user_comparison_ultimatum_gpt56terra_claude_sonnet5_as_user
+n_runs: 50
+combos:
+- id: user_on_agent_1
+  base: configs/ultimatum/think_harness_fixed.yaml
+  base_id: user_on_agent_1
+  label: ultimatum; agents=gpt-5.6-terra; user=claude-sonnet-5; user_on_agent_1
+  metadata:
+    game: ultimatum_harness_fixed
+    user_side: agent_1
+    negotiation_turn_limit: 40
+    proposal_schema_version: explicit_gives_json_v1
+    agent_provider: openai
+    agent_model: gpt-5.6-terra
+    user_provider: anthropic
+    user_model: claude-sonnet-5
+    reasoning_mode: provider_default
+    comparison_condition: user_on_agent_1
+    with_user: true
+    with_instructions: false
+    user_count: 1
+    n_per_direction: 50
+    n_total_per_game_agent_user: 100
+  overrides:
+    log_dir: logs/user_model_robustness
+    orchestrator_settings.max_total_negotiation_turns: 40
+    orchestrator_settings.generate_initial_user_guidance: true
+    agent_1.provider: openai
+    agent_1.model: gpt-5.6-terra
+    agent_1.api_key_name: OPENAI_API_KEY
+    agent_2.provider: openai
+    agent_2.model: gpt-5.6-terra
+    agent_2.api_key_name: OPENAI_API_KEY
+    user_1.provider: anthropic
+    user_1.model: claude-sonnet-5
+    user_1.api_key_name: ANTHROPIC_API_KEY
+    user_1.prompts_path: prompts/thinking/single_user/user_utility_faithful_v3.yaml
+    user_2.provider: anthropic
+    user_2.model: claude-sonnet-5
+    user_2.api_key_name: ANTHROPIC_API_KEY
+    user_2.prompts_path: prompts/thinking/single_user/user_utility_faithful_v3.yaml
+    agent_2.no_user: true
+    agent_1.prompts_path: prompts/thinking/single_user/agent_natural_user_thinking.yaml
+    agent_2.prompts_path: prompts/thinking/agent_no_user_thinking.yaml
+    user_2.type: none
+    agent_1.no_user: false
+    user_1.type: llm
+  n_runs: 50
+- id: user_on_agent_2
+  base: configs/ultimatum/think_harness_fixed.yaml
+  base_id: user_on_agent_2
+  label: ultimatum; agents=gpt-5.6-terra; user=claude-sonnet-5; user_on_agent_2
+  metadata:
+    game: ultimatum_harness_fixed
+    user_side: agent_2
+    negotiation_turn_limit: 40
+    proposal_schema_version: explicit_gives_json_v1
+    agent_provider: openai
+    agent_model: gpt-5.6-terra
+    user_provider: anthropic
+    user_model: claude-sonnet-5
+    reasoning_mode: provider_default
+    comparison_condition: user_on_agent_2
+    with_user: true
+    with_instructions: false
+    user_count: 1
+    n_per_direction: 50
+    n_total_per_game_agent_user: 100
+  overrides:
+    log_dir: logs/user_model_robustness
+    orchestrator_settings.max_total_negotiation_turns: 40
+    orchestrator_settings.generate_initial_user_guidance: true
+    agent_1.provider: openai
+    agent_1.model: gpt-5.6-terra
+    agent_1.api_key_name: OPENAI_API_KEY
+    agent_2.provider: openai
+    agent_2.model: gpt-5.6-terra
+    agent_2.api_key_name: OPENAI_API_KEY
+    user_1.provider: anthropic
+    user_1.model: claude-sonnet-5
+    user_1.api_key_name: ANTHROPIC_API_KEY
+    user_1.prompts_path: prompts/thinking/single_user/user_utility_faithful_v3.yaml
+    user_2.provider: anthropic
+    user_2.model: claude-sonnet-5
+    user_2.api_key_name: ANTHROPIC_API_KEY
+    user_2.prompts_path: prompts/thinking/single_user/user_utility_faithful_v3.yaml
+    agent_1.no_user: true
+    agent_2.prompts_path: prompts/thinking/single_user/agent_natural_user_thinking.yaml
+    agent_1.prompts_path: prompts/thinking/agent_no_user_thinking.yaml
+    user_1.type: none
+    agent_2.no_user: false
+    user_2.type: llm
+  n_runs: 50

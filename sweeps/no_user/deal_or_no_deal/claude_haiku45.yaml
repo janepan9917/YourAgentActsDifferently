@@ -1,0 +1,32 @@
+# no_user: deal_or_no_deal, claude-haiku-4-5.
+# Logs: data/raw/no_user/n100_deal_or_no_deal_claudehaiku45/
+sweep_id: n100_deal_or_no_deal_claudehaiku45
+n_runs: 100
+combos:
+- id: wo_user_wo_instructions
+  base: configs/deal_or_no_deal/think_no_user.yaml
+  base_id: wo_instructions
+  label: Deal-or-No-Deal, without user, Claude Haiku 4.5, 40-turn limit
+  metadata:
+    game: deal_or_no_deal
+    with_user: false
+    with_instructions: false
+    negotiation_turn_limit: 40
+  overrides:
+    orchestrator_settings.max_total_negotiation_turns: 40
+    agent_1.provider: anthropic
+    agent_1.model: claude-haiku-4-5
+    agent_1.api_key_name: ANTHROPIC_API_KEY
+    agent_2.provider: anthropic
+    agent_2.model: claude-haiku-4-5
+    agent_2.api_key_name: ANTHROPIC_API_KEY
+    user_1.provider: anthropic
+    user_1.model: claude-haiku-4-5
+    user_1.api_key_name: ANTHROPIC_API_KEY
+    user_2.provider: anthropic
+    user_2.model: claude-haiku-4-5
+    user_2.api_key_name: ANTHROPIC_API_KEY
+    user_1.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    user_2.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    log_dir: logs/no_user
+  n_runs: 100

@@ -1,0 +1,37 @@
+# dual_user: deal_or_no_deal, deepseek-ai/DeepSeek-V4-Flash-0731.
+# Logs: data/raw/dual_user/n100_deal_or_no_deal_deepseek_v4_flash_gpt56terra_as_user/
+sweep_id: n100_deal_or_no_deal_deepseek_v4_flash_gpt56terra_as_user
+n_runs: 100
+combos:
+- id: w_user_wo_instructions
+  base: configs/deal_or_no_deal/think.yaml
+  base_id: wo_instructions
+  label: Deal-or-No-Deal, DeepSeek V4 Flash 0731 agents, GPT-5.6 Terra users
+  metadata:
+    game: deal_or_no_deal
+    with_user: true
+    with_instructions: false
+    negotiation_turn_limit: 40
+    agent_provider: togetherai
+    agent_model: deepseek-ai/DeepSeek-V4-Flash-0731
+    user_provider: openai
+    user_model: gpt-5.6-terra
+    reasoning_mode: provider_default
+  overrides:
+    log_dir: logs/dual_user
+    orchestrator_settings.max_total_negotiation_turns: 40
+    agent_1.provider: togetherai
+    agent_1.model: deepseek-ai/DeepSeek-V4-Flash-0731
+    agent_1.api_key_name: TOGETHERAI_API_KEY
+    agent_2.provider: togetherai
+    agent_2.model: deepseek-ai/DeepSeek-V4-Flash-0731
+    agent_2.api_key_name: TOGETHERAI_API_KEY
+    user_1.provider: openai
+    user_1.model: gpt-5.6-terra
+    user_1.api_key_name: OPENAI_API_KEY
+    user_1.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    user_2.provider: openai
+    user_2.model: gpt-5.6-terra
+    user_2.api_key_name: OPENAI_API_KEY
+    user_2.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+  n_runs: 100

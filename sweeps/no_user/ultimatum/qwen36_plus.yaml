@@ -1,0 +1,45 @@
+# no_user: ultimatum, Qwen/Qwen3.6-Plus.
+# Logs: data/raw/no_user/n100_ultimatum_qwen36_plus/
+sweep_id: n100_ultimatum_qwen36_plus
+n_runs: 100
+combos:
+- id: wo_user_wo_instructions
+  base: configs/ultimatum/think_no_user_harness_fixed.yaml
+  base_id: wo_instructions
+  label: NegotiationArena Ultimatum harness-fixed, without user, Qwen 3.6 Plus, 40-turn
+    limit
+  metadata:
+    game: ultimatum_harness_fixed
+    provider: togetherai
+    model: Qwen/Qwen3.6-Plus
+    with_user: false
+    with_instructions: false
+    reasoning_mode: provider_default
+    negotiation_turn_limit: 40
+    proposal_schema_version: explicit_gives_json_v1
+  overrides:
+    orchestrator_settings.max_total_negotiation_turns: 40
+    agent_1.provider: togetherai
+    agent_1.model: Qwen/Qwen3.6-Plus
+    agent_1.api_key_name: TOGETHERAI_API_KEY
+    agent_1.max_tokens: 8192
+    agent_1.stream: true
+    agent_2.provider: togetherai
+    agent_2.model: Qwen/Qwen3.6-Plus
+    agent_2.api_key_name: TOGETHERAI_API_KEY
+    agent_2.max_tokens: 8192
+    agent_2.stream: true
+    user_1.provider: togetherai
+    user_1.model: Qwen/Qwen3.6-Plus
+    user_1.api_key_name: TOGETHERAI_API_KEY
+    user_1.max_tokens: 8192
+    user_1.stream: true
+    user_2.provider: togetherai
+    user_2.model: Qwen/Qwen3.6-Plus
+    user_2.api_key_name: TOGETHERAI_API_KEY
+    user_2.max_tokens: 8192
+    user_2.stream: true
+    user_1.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    user_2.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    log_dir: logs/no_user
+  n_runs: 100

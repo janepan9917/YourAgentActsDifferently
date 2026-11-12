@@ -1,0 +1,38 @@
+# user_model_selection: ultimatum, gpt-5.6-terra.
+# Logs: data/raw/user_model_selection/n100_ultimatum_gpt56terra_claude_opus5_as_user/
+sweep_id: n100_ultimatum_gpt56terra_claude_opus5_as_user
+n_runs: 50
+combos:
+- id: w_user_wo_instructions
+  base: configs/ultimatum/think_harness_fixed.yaml
+  base_id: wo_instructions
+  label: Ultimatum harness-fixed, GPT-5.6 Terra agents, Claude Opus 5 users
+  metadata:
+    game: ultimatum_harness_fixed
+    with_user: true
+    with_instructions: false
+    negotiation_turn_limit: 40
+    proposal_schema_version: explicit_gives_json_v1
+    agent_provider: openai
+    agent_model: gpt-5.6-terra
+    user_provider: anthropic
+    user_model: claude-opus-5
+    reasoning_mode: provider_default
+  overrides:
+    orchestrator_settings.max_total_negotiation_turns: 40
+    agent_1.provider: openai
+    agent_1.model: gpt-5.6-terra
+    agent_1.api_key_name: OPENAI_API_KEY
+    agent_2.provider: openai
+    agent_2.model: gpt-5.6-terra
+    agent_2.api_key_name: OPENAI_API_KEY
+    user_1.provider: anthropic
+    user_1.model: claude-opus-5
+    user_1.api_key_name: ANTHROPIC_API_KEY
+    user_2.provider: anthropic
+    user_2.model: claude-opus-5
+    user_2.api_key_name: ANTHROPIC_API_KEY
+    user_1.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    user_2.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    log_dir: logs/user_model_selection
+  n_runs: 50

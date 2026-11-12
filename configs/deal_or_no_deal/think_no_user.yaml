@@ -1,0 +1,51 @@
+# Deal-or-No-Deal (Lewis et al., 2017) using this repository's thinking protocol.
+# Each six-integer context is count,value for books, hats, and balls.
+
+game_name: deal_or_no_deal
+log_dir: logs
+
+game_params:
+  enforce_original_constraints: true
+
+orchestrator_settings:
+  max_total_negotiation_turns: 60
+  max_agent_user_turns: 60
+  max_agent_user_exchanges: 20
+  user_consultation_mode: natural
+  generate_initial_user_guidance: false
+
+agent_1:
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_no_user_thinking.yaml
+  no_user: true
+  initial_reward: 100
+
+agent_2:
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_no_user_thinking.yaml
+  no_user: true
+  initial_reward: 100
+
+user_1:
+  type: none
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+  initial_offer: ""
+  private_info:
+    context: "3 1 2 3 1 1"
+
+user_2:
+  type: none
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+  initial_offer: ""
+  private_info:
+    context: "3 2 2 1 1 2"

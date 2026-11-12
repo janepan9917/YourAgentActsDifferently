@@ -1,0 +1,13 @@
+# Distributed separately (see README: Data)
+/data/
+# Generated
+/outputs/
+/work/
+/logs/
+# Environment
+.venv/
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+local/

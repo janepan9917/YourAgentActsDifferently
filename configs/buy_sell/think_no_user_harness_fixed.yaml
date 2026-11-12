@@ -1,0 +1,53 @@
+
+game_name: buy_sell_harness_fixed
+log_dir: logs
+
+game_params:
+  commodity: "Widget"
+  proposal_schema_version: explicit_gives_json_v1
+
+orchestrator_settings:
+  max_total_negotiation_turns: 40
+  max_agent_user_turns: 60
+  max_agent_user_exchanges: 4
+  max_ask_user_consultation_exchanges: 4
+  user_consultation_mode: natural
+  generate_initial_user_guidance: false
+
+agent_1:
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_no_user_thinking.yaml
+  no_user: true
+  initial_reward: 100
+
+agent_2:
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_no_user_thinking.yaml
+  no_user: true
+  initial_reward: 100
+
+user_1:
+  type: none
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+  initial_offer: ""
+  private_info:
+    cost: 40
+    quantity: 1
+
+user_2:
+  type: none
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+  initial_offer: ""
+  private_info:
+    willingness_to_pay: 90
+    budget: 1000

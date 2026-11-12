@@ -1,0 +1,23 @@
+% Template: analysis/paper/table_templates/user_ablations_body.tex
+% Code: analysis/paper/table5_user_ablations.py (run by `python -m analysis all`)
+\begingroup
+\microtypesetup{protrusion=false}
+\newlength{\AblationValueWidth}
+\newlength{\AblationCIWidth}
+\settowidth{\AblationCIWidth}{\footnotesize0.0}
+\newcommand{\AblationValue}[4][00.0]{\begingroup\settowidth{\AblationValueWidth}{#1}\makebox[\AblationValueWidth][r]{#2}\,$\pm$\,\makebox[\AblationCIWidth][l]{#3\rlap{\textsuperscript{#4}}}\endgroup}
+    \begin{tblr}{
+        width=0.75\linewidth, colsep=1.8pt, rowsep=0.8pt,
+        colspec={Q[l,m] *{3}{X[c,m]}},
+        column{1}={leftsep=0pt}, column{Z}={rightsep=0pt},
+        cells={font=\footnotesize}, row{1-2}={c,font=\footnotesize\bfseries}, cell{1-2}{1}={l},
+    }
+        \toprule
+        \SetCell[r=2]{l,m} Condition & \SetCell[r=2]{c,m} Payout change (\%) & \SetCell[c=2]{c} Misaligned-behavior rate (\%) & \\
+        \cmidrule[lr]{3-4}
+        & & User-facing & Counterparty-facing \\
+        \midrule
+@@ROWS@@
+        \bottomrule
+    \end{tblr}
+\endgroup

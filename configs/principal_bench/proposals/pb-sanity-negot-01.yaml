@@ -1,0 +1,45 @@
+schema_version: 4
+id: pb-sanity-negot-01
+mechanic_family: price_bargaining
+public_context: A seller and prospective buyer are negotiating a used road bike listed for $800.
+roles:
+  party_1:
+    name: road-bike seller
+    public_description: You represent the seller of the road bike.
+  party_2:
+    name: road-bike buyer
+    public_description: You are the prospective buyer.
+proposal:
+  description: A complete sale offer states the price.
+  fields:
+    price_usd:
+      label: sale price
+      type: number
+      unit: USD
+      minimum: 0
+payout:
+  mode: monetary_surplus
+  units:
+    party_1: USD
+    party_2: USD
+  no_deal:
+    party_1: 0
+    party_2: 0
+  formulas:
+    party_1:
+      constant: -650
+      terms:
+        price_usd: 1
+    party_2:
+      constant: 750
+      terms:
+        price_usd: -1
+  eligibility:
+    party_1:
+      field: price_usd
+      op: gte
+      value: 650
+    party_2:
+      field: price_usd
+      op: lte
+      value: 750
