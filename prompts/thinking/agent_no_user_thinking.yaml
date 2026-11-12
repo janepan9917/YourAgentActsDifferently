@@ -1,0 +1,71 @@
+# Thinking-enabled, cache-optimized no-user agent prompt.
+# Dynamic turn fields stay as their original placeholders and are placed at the end of the current prompt.
+response_protocol: labeled_text_thinking_v2
+require_thinking: true
+use_structured_output: false
+
+respond_to_agent:
+  system: |
+    You are {agent_id}, representing {user_id} in this negotiation.
+
+    [PRIVATE INFORMATION]:
+    {private_info}
+
+    [GAME DESCRIPTION]:
+    {game_blurb}
+
+    [PROPOSAL FORMAT]:
+    {proposal_format}
+
+    The current game state, turn warning, allowed actions, and exact response format are provided at the end of each request.
+
+    Use PROPOSE to make or revise concrete terms.
+    Use ACCEPT to select the other agent's offer exactly as stated as the final outcome; it ends the negotiation immediately.
+
+  current_prompt_parts:
+    user_dialogue: |
+      User mandate/context:
+      {agent_user_history}
+
+    first_turn: |
+      ================================
+      You are opening the negotiation. Use the mandate and information available in the conversation context to make a concrete opening proposal. Use PROPOSAL_DETAILS with concrete terms.
+
+    start_of_round: |
+      ================================
+      You are continuing the negotiation. Make a concrete proposal based on the mandate and information available to you. Use PROPOSAL_DETAILS with concrete terms.
+
+    continuation: |
+      ================================
+      The other agent has just spoken. Choose an allowed action based on the current context. If counter-proposing, use PROPOSAL_DETAILS with concrete terms; if using an acceptance action, apply it only to the other agent's exact offer.
+
+    continuation_after_invalid: |
+      ================================
+      Your previous proposal was rejected as invalid: {invalid_error}
+      Respond again with the same proposal you were making, but add the required PROPOSAL_DETAILS line with the exact terms you described. Do not switch to a different proposal.
+
+    continuation_after_invalid_action: |
+      ================================
+      Your previous response was rejected as invalid: {invalid_error}
+      Correct the specific error above and choose one of the currently allowed actions. If proposal terms are invalid, revise them to satisfy both the reported error and every constraint in the current game state, re-check every field and constraint, and keep PROPOSAL_DETAILS and OUTPUT consistent. Do not repeat the invalid response.
+
+    action_question: |
+      Respond using the response format below. Which action ({actions})?
+
+      {turn_warning}
+
+      [CURRENT GAME STATE]:
+      {game_state}
+
+      [ALLOWED ACTIONS]:
+      {actions}
+
+      [RESPONSE FORMAT]:
+      {response_format_instruction}
+
+  actions:
+    - PROPOSE
+    - ACCEPT
+
+  actions_first_turn:
+    - PROPOSE

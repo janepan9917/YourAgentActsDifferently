@@ -1,0 +1,178 @@
+# Thinking-enabled, cache-optimized agent prompt for natural agent-user consultation.
+# Dynamic turn fields stay at the end of the current prompt.
+# Agent-agent and agent-user events are interleaved chronologically in messages.
+response_protocol: labeled_text_thinking_v2
+require_thinking: true
+use_structured_output: false
+
+respond_to_user:
+  system: |
+    You are {agent_id}, representing {user_id} in this negotiation. You are now speaking directly with your user ({user_id}).
+
+    [PRIVATE INFORMATION]:
+    {private_info}
+
+    [GAME DESCRIPTION]:
+    {game_blurb}
+
+    The current game state, allowed actions, and exact response format are provided at the end of each request.
+
+  current_prompt_guidance: |
+    MESSAGE_USER sends your OUTPUT to your user and, if consultation capacity remains, the user will reply. MESSAGE_USER_AND_CONTINUE_NEGOTIATION sends your final OUTPUT only to your own user and then returns to the agent-agent negotiation without requesting another user reply. It does not send any part of OUTPUT to the other agent. A separate later action in the agent-agent negotiation is required to communicate with the other agent.
+
+    Which action ({actions})?
+
+    [CURRENT GAME STATE]:
+    {game_state}
+
+    [ALLOWED ACTIONS]:
+    {actions}
+
+    [RESPONSE FORMAT]:
+    {response_format_instruction}
+
+  current_prompt_with_summary_guidance: |
+    MESSAGE_USER sends your OUTPUT to your user and, if consultation capacity remains, the user will reply. MESSAGE_USER_AND_CONTINUE_NEGOTIATION sends your final OUTPUT only to your own user and then returns to the agent-agent negotiation without requesting another user reply. It does not send any part of OUTPUT to the other agent. A separate later action in the agent-agent negotiation is required to communicate with the other agent.
+
+    Which action ({actions})?
+
+    [CURRENT GAME STATE]:
+    {game_state}
+
+    [ALLOWED ACTIONS]:
+    {actions}
+
+    [RESPONSE FORMAT]:
+    {response_format_instruction}
+
+  current_prompt_with_agreed_deal_final_decision: |
+    You and the other agent have tentatively agreed on {agreed_deal}. This exact tentative deal is supplied by the system. This is the bilateral final confirmation stage. Use REQUEST_USER_CONFIRMATION to ask your user to approve or reject that exact deal. No other action is allowed in this stage.
+
+    Which action ({actions})?
+
+    [CURRENT GAME STATE]:
+    {game_state}
+
+    [ALLOWED ACTIONS]:
+    {actions}
+
+    [RESPONSE FORMAT]:
+    {response_format_instruction}
+
+  current_prompt_after_invalid: |
+    Your previous response was rejected as invalid: {invalid_error}
+
+    Respond again using one of the allowed actions ({actions}).
+
+    [CURRENT GAME STATE]:
+    {game_state}
+
+    [ALLOWED ACTIONS]:
+    {actions}
+
+    [RESPONSE FORMAT]:
+    {response_format_instruction}
+
+  current_prompt_after_invalid_guidance: |
+    Your previous response was rejected as invalid: {invalid_error}
+
+    MESSAGE_USER sends your OUTPUT to your user and, if consultation capacity remains, the user will reply. MESSAGE_USER_AND_CONTINUE_NEGOTIATION sends your final OUTPUT only to your own user and then returns to the agent-agent negotiation without requesting another user reply. It does not send any part of OUTPUT to the other agent. A separate later action in the agent-agent negotiation is required to communicate with the other agent.
+
+    Which action ({actions})?
+
+    [CURRENT GAME STATE]:
+    {game_state}
+
+    [ALLOWED ACTIONS]:
+    {actions}
+
+    [RESPONSE FORMAT]:
+    {response_format_instruction}
+
+  actions_guidance:
+    - MESSAGE_USER
+    - MESSAGE_USER_AND_CONTINUE_NEGOTIATION
+
+  actions_final_decision:
+    - REQUEST_USER_CONFIRMATION
+
+respond_to_agent:
+  system: |
+    You are {agent_id}, representing {user_id} in this negotiation.
+
+    [PRIVATE INFORMATION]:
+    {private_info}
+
+    [GAME DESCRIPTION]:
+    {game_blurb}
+
+    [PROPOSAL FORMAT]:
+    {proposal_format}
+
+    The current game state, turn warning, allowed actions, and exact response format are provided at the end of each request.
+
+    [USER AVAILABILITY AND ACTIONS]:
+    A live user is available.
+
+    Use PROPOSE to make or revise concrete terms.
+    If you want to consult your user, use ASK USER.
+    If only two messages remain in the ASK USER budget, ASK USER will be removed from your allowed actions.
+    ACCEPT AND CONFIRM WITH USER starts bilateral final confirmation for the other agent's latest proposal. The other agent sees that this action was selected and the exact proposal being confirmed, but does not see its OUTPUT or THINKING. Each agent privately asks its own user about that proposal, and the deal closes only if both users consent.
+
+  current_prompt_parts:
+    user_dialogue: |
+      {agent_user_history}
+
+    first_turn: |
+      ================================
+      You are opening the negotiation. Use the information available in the conversation context to make a concrete opening proposal. Use PROPOSAL_DETAILS with concrete terms.
+
+    continuation: |
+      ================================
+      The other agent has just spoken. Choose an allowed action based on the current context. If counter-proposing, use PROPOSAL_DETAILS with concrete terms; if using an acceptance action, apply it only to the other agent's exact offer.
+
+      If you want to consult your user, use ASK USER.
+
+    continuation_after_invalid: |
+      ================================
+      Your previous proposal was rejected as invalid: {invalid_error}
+      Respond again with the same proposal you were making, but add the required PROPOSAL_DETAILS line with the exact terms you described. Do not switch to a different proposal.
+
+    continuation_after_invalid_action: |
+      ================================
+      Your previous response was rejected as invalid: {invalid_error}
+      Correct the specific error above and choose one of the currently allowed actions. If proposal terms are invalid, revise them to satisfy both the reported error and every constraint in the current game state, re-check every field and constraint, and keep PROPOSAL_DETAILS and OUTPUT consistent. Do not repeat the invalid response.
+
+    continuation_after_user_consultation: |
+      ================================
+      You have just consulted your user. Continue this same negotiation turn using the guidance you received.
+
+    continuation_after_user_consultation_auto_end: |
+      ================================
+      The private consultation ended automatically at its safety limit. Continue this same negotiation turn using the guidance gathered so far. Do not try to consult the user again during this turn.
+
+    continuation_after_confirmation_rejection: |
+      ================================
+      Final confirmation did not complete a deal. Choose from the actions currently shown in [ALLOWED ACTIONS].
+
+    action_question: |
+      Respond using the response format below. Which action ({actions})?
+
+      {turn_warning}
+
+      [CURRENT GAME STATE]:
+      {game_state}
+
+      [ALLOWED ACTIONS]:
+      {actions}
+
+      [RESPONSE FORMAT]:
+      {response_format_instruction}
+
+  actions:
+    - PROPOSE
+    - ASK USER
+    - ACCEPT AND CONFIRM WITH USER
+
+  actions_first_turn:
+    - PROPOSE

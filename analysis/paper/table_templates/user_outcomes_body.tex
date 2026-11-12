@@ -1,0 +1,29 @@
+% Template: analysis/paper/table_templates/user_outcomes_body.tex
+% Code: analysis/paper/table3_payout.py (run by `python -m analysis all`)
+\begingroup
+\microtypesetup{protrusion=false}
+\definecolor{PayoutIncrease}{HTML}{79B48C}
+\definecolor{PayoutDecrease}{HTML}{D98783}
+\newlength{\PayoutValueWidth}
+\newlength{\PayoutCIWidth}
+\newlength{\PayoutModelWidth}
+\settowidth{\PayoutCIWidth}{00.0}
+\settowidth{\PayoutModelWidth}{\bfseries Haiku 4.5}
+\newcommand{\PayoutValue}[4][$-$0.0]{\begingroup\settowidth{\PayoutValueWidth}{#1}\makebox[\PayoutValueWidth][r]{#2#3}\rlap{\textsuperscript{#4}}\endgroup}
+\newcommand{\PayoutCI}[4]{\PayoutValue{#1}{#2}{}\,$\pm$\,\makebox[\PayoutCIWidth][l]{#3\rlap{\textsuperscript{#4}}}}
+    \begin{tblr}{
+        colsep=2.5pt, rowsep=1pt,
+        colspec={Q[l,m] *{9}{Q[c,m]}},
+        column{1}={leftsep=0pt}, column{2-9}={wd=\PayoutModelWidth}, column{Z}={rightsep=3pt},
+        vline{10}={solid,fg=gray!50}, row{1,2}={c,font=\bfseries},
+@@CELL_COLORS@@
+    }
+        \toprule
+        \SetCell[r=2]{l,m} Game & \SetCell[c=2]{c} Claude &  & DeepSeek & \SetCell[c=2]{c} GPT-5.6 &  & \SetCell[c=3]{c} Qwen &  &  & \SetCell[r=2]{c,m} {Pooled\\(95\% CI)} \\
+        \cmidrule[lr=-1.8]{2-3}\cmidrule[lr=-1.8]{4-4}\cmidrule[lr=-1.8]{5-6}\cmidrule[lr=-1.8]{7-9}
+         & Haiku 4.5 & Sonnet 5 & V4 Flash & Luna & Terra & 3.6 Plus & 3.7 Plus & 3.8 Flash &  \\
+        \midrule
+@@ROWS@@
+        \bottomrule
+    \end{tblr}
+\endgroup

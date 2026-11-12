@@ -1,0 +1,38 @@
+# user_model_selection: ultimatum, claude-haiku-4-5.
+# Logs: data/raw/user_model_selection/n100_ultimatum_claude_haiku45_gpt56sol_as_user/
+sweep_id: n100_ultimatum_claude_haiku45_gpt56sol_as_user
+n_runs: 50
+combos:
+- id: w_user_wo_instructions
+  base: configs/ultimatum/think_harness_fixed.yaml
+  base_id: wo_instructions
+  label: Ultimatum harness-fixed, Claude Haiku 4.5 agents, GPT-5.6 Sol users
+  metadata:
+    game: ultimatum_harness_fixed
+    with_user: true
+    with_instructions: false
+    negotiation_turn_limit: 40
+    proposal_schema_version: explicit_gives_json_v1
+    agent_provider: anthropic
+    agent_model: claude-haiku-4-5
+    user_provider: openai
+    user_model: gpt-5.6-sol
+    reasoning_mode: provider_default
+  overrides:
+    orchestrator_settings.max_total_negotiation_turns: 40
+    agent_1.provider: anthropic
+    agent_1.model: claude-haiku-4-5
+    agent_1.api_key_name: ANTHROPIC_API_KEY
+    agent_2.provider: anthropic
+    agent_2.model: claude-haiku-4-5
+    agent_2.api_key_name: ANTHROPIC_API_KEY
+    user_1.provider: openai
+    user_1.model: gpt-5.6-sol
+    user_1.api_key_name: OPENAI_API_KEY
+    user_2.provider: openai
+    user_2.model: gpt-5.6-sol
+    user_2.api_key_name: OPENAI_API_KEY
+    user_1.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    user_2.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    log_dir: logs/user_model_selection
+  n_runs: 50

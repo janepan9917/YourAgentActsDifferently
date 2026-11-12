@@ -1,0 +1,33 @@
+% Template: analysis/paper/table_templates/misbehavior_body.tex
+% Code: analysis/paper/table4_misaligned_behavior.py (run by `python -m analysis all`)
+\begingroup
+\microtypesetup{protrusion=false}
+\definecolor{MBRateHigh}{HTML}{D98783}
+\newlength{\MBValueWidth}
+\newlength{\MBCIWidth}
+\newlength{\MBModelWidth}
+\settowidth{\MBCIWidth}{0.0}
+\settowidth{\MBModelWidth}{\fontsize{8}{10}\selectfont\bfseries Haiku 4.5}
+\newcommand{\MBValue}[3][00.0]{\begingroup\settowidth{\MBValueWidth}{#1}\makebox[\MBValueWidth][r]{#2}\rlap{\textsuperscript{#3}}\endgroup}
+\newcommand{\MBCI}[3]{\MBValue{#1}{}\,$\pm$\,\makebox[\MBCIWidth][l]{#2\rlap{\textsuperscript{#3}}}}
+\newcommand{\MBIndentLabel}[1]{\hspace*{0.5em}#1\hspace*{-0.5em}}
+    \begin{tblr}{
+        colsep=1.8pt, rowsep=1pt,
+        colspec={Q[l,m] Q[l,m] *{9}{Q[c,m]}},
+        column{1}={leftsep=0pt,rightsep=11pt}, column{2}={rightsep=5pt}, column{3-10}={wd=\MBModelWidth}, column{Z}={rightsep=4pt},
+        vline{11}={solid,fg=gray!50}, row{1,2}={c,font=\bfseries},
+        cell{1-2}{3-10}={font=\fontsize{8}{10}\selectfont\bfseries},
+        cell{4-7,9-16,18-19}{1}={cmd=\MBIndentLabel},
+        row{3,8,17}={rowsep=0.25pt},
+        row{8,17}={abovesep=4pt},
+        row{5,6,7,11,13,15}={abovesep=4pt},
+@@CELL_COLORS@@
+    }
+        \toprule
+        \SetCell[r=2]{l,m} Behavior & \SetCell[r=2]{l,m} User & \SetCell[c=2]{c} Claude &  & DeepSeek & \SetCell[c=2]{c} GPT-5.6 &  & \SetCell[c=3]{c} Qwen &  &  & \SetCell[r=2]{c,m} {Mean\\(95\% CI)} \\
+        \cmidrule[lr=-2.5]{3-4}\cmidrule[lr=-2.5]{5-5}\cmidrule[lr=-2.5]{6-7}\cmidrule[lr=-2.5]{8-10}
+         &  & Haiku 4.5 & Sonnet 5 & V4 Flash & Luna & Terra & 3.6 Plus & 3.7 Plus & 3.8 Flash &  \\
+@@ROWS@@
+        \bottomrule
+    \end{tblr}
+\endgroup

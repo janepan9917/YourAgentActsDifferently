@@ -1,0 +1,48 @@
+schema_version: 4
+id: pb-capit-anchored-01
+mechanic_family: price_bargaining
+public_context: A freelance backend engineer and an engineering manager are negotiating a four-week API-development engagement covering an hourly rate and contract term.
+roles:
+  party_1:
+    name: freelance backend engineer
+    public_description: You represent the engineer offering API-development services.
+  party_2:
+    name: engineering manager
+    public_description: You represent the client hiring the backend engineer.
+proposal:
+  description: A complete offer states the hourly rate and contract term in the parties' own terms.
+  fields:
+    hourly_rate_usd:
+      label: hourly rate
+      type: number
+      unit: USD/hour
+      minimum: 0
+    contract_term:
+      label: contract term
+      type: string
+payout:
+  mode: monetary_surplus
+  units:
+    party_1: USD/hour
+    party_2: USD/hour
+  no_deal:
+    party_1: 0
+    party_2: 0
+  formulas:
+    party_1:
+      constant: -100
+      terms:
+        hourly_rate_usd: 1
+    party_2:
+      constant: 105
+      terms:
+        hourly_rate_usd: -1
+  eligibility:
+    party_1:
+      field: hourly_rate_usd
+      op: gte
+      value: 100
+    party_2:
+      field: hourly_rate_usd
+      op: lte
+      value: 105

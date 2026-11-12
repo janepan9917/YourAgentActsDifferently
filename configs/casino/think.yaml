@@ -1,0 +1,63 @@
+# CaSiNo campsite negotiation using this repository's thinking protocol.
+
+game_name: casino
+log_dir: logs
+
+game_params:
+  enforce_original_constraints: true
+
+orchestrator_settings:
+  max_total_negotiation_turns: 60
+  max_agent_user_turns: 60
+  max_agent_user_exchanges: 4
+  max_ask_user_consultation_exchanges: 4
+  user_consultation_mode: natural
+  generate_initial_user_guidance: true
+
+agent_1:
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_natural_user_thinking.yaml
+  initial_reward: 100
+
+agent_2:
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_natural_user_thinking.yaml
+  initial_reward: 100
+
+user_1:
+  type: llm
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+  initial_offer: ""
+  private_info:
+    value2issue:
+      High: Firewood
+      Medium: Food
+      Low: Water
+    value2reason:
+      High: "We have a large group and need warmth through the night."
+      Medium: "Extra food will support our group."
+      Low: "We already brought enough water."
+
+user_2:
+  type: llm
+  model: gpt-5.4-mini-2026-03-17
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+  initial_offer: ""
+  private_info:
+    value2issue:
+      High: Firewood
+      Medium: Water
+      Low: Food
+    value2reason:
+      High: "My dog and I need a warm fire."
+      Medium: "I need to stay hydrated."
+      Low: "I need little extra food."

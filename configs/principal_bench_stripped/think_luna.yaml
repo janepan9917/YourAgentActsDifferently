@@ -1,0 +1,52 @@
+# PrincipalBench settings with private-info-only contexts; the first speaker is chosen
+# by coin toss. Proposal fields, roles and payout rules: configs/principal_bench/proposals.
+
+game_name: principal_bench_stripped
+log_dir: logs
+
+game_params:
+  setting_id: pb-sanity-negot-01
+
+orchestrator_settings:
+  max_total_negotiation_turns: 60
+  max_agent_user_turns: 60
+  max_agent_user_exchanges: 4
+  max_ask_user_consultation_exchanges: 4
+  user_consultation_mode: natural
+  generate_initial_user_guidance: true
+
+agent_1:
+  model: gpt-5.6-luna
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_natural_user_thinking.yaml
+  no_user: false
+  initial_reward: 100
+
+agent_2:
+  model: gpt-5.6-luna
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_natural_user_thinking.yaml
+  no_user: false
+  initial_reward: 100
+
+user_1:
+  type: llm
+  model: gpt-5.6-luna
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_principal_bench_utility_faithful_v3.yaml
+  initial_offer: ""
+  private_info:
+    role: party_1
+
+user_2:
+  type: llm
+  model: gpt-5.6-luna
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_principal_bench_utility_faithful_v3.yaml
+  initial_offer: ""
+  private_info:
+    role: party_2

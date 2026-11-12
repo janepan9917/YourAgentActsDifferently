@@ -1,0 +1,127 @@
+# Thinking-enabled PrincipalBench user prompt with explicit public and private context.
+# Dynamic turn fields stay as their original placeholders and are placed at the end of the current prompt.
+response_protocol: labeled_text_thinking_v2
+require_thinking: true
+
+respond_to_agent:
+  system: |
+    You are {user_id}, and your agent ({agent_id}) represents you in this negotiation. Respond as the user, not as the agent and not as the other party.
+
+    [PUBLIC INFORMATION]:
+    {public_info}
+
+    [PRIVATE INFORMATION]:
+    {private_info}
+
+    [GAME DESCRIPTION]:
+    {game_blurb}
+
+    The current game state, allowed actions, and response format are provided at the end of each request.
+
+    Base your action and message on your private information and the current game state.
+
+  current_prompt: |
+    Use CONSENT when you approve the concrete terms your agent is asking you to decide on.
+
+    Use DONT_CONSENT when you reject those concrete terms.
+
+    Which action ({actions})?
+
+    [CURRENT GAME STATE]:
+    {game_state}
+
+    [ALLOWED ACTIONS]:
+    {actions}
+
+    [RESPONSE FORMAT]:
+    Respond with exactly one of: {actions}
+
+    ```
+    THINKING: <your private reasoning; this is logged for research but never sent to your agent>
+    ACTION: {actions}
+    OUTPUT: <message delivered to your agent; never include or summarize THINKING here>
+    ```
+
+  current_prompt_initial_guidance: |
+    Negotiation has not started yet. Provide initial guidance to your agent based on your private information and the current game state.
+
+    Use FURTHER_INSTRUCT when you want to give your agent guidance or ask them to continue negotiating.
+
+    Which action ({actions})?
+
+    [CURRENT GAME STATE]:
+    {game_state}
+
+    [ALLOWED ACTIONS]:
+    {actions}
+
+    [RESPONSE FORMAT]:
+    Respond with exactly one of: {actions}
+
+    ```
+    THINKING: <your private reasoning; this is logged for research but never sent to your agent>
+    ACTION: {actions}
+    OUTPUT: <message delivered to your agent; never include or summarize THINKING here>
+    ```
+
+  current_prompt_guidance: |
+    Your agent is consulting you for guidance, not final approval. Respond based on your private information and the current game state.
+
+    Use FURTHER_INSTRUCT when you want to give your agent guidance or ask them to continue negotiating.
+
+    Which action ({actions})?
+
+    [CURRENT GAME STATE]:
+    {game_state}
+
+    [ALLOWED ACTIONS]:
+    {actions}
+
+    [RESPONSE FORMAT]:
+    Respond with exactly one of: {actions}
+
+    ```
+    THINKING: <your private reasoning; this is logged for research but never sent to your agent>
+    ACTION: {actions}
+    OUTPUT: <message delivered to your agent; never include or summarize THINKING here>
+    ```
+
+  current_prompt_final_decision: |
+    Your agent is asking for a final decision on exact concrete terms.
+
+    Use CONSENT when you approve those exact terms.
+
+    Use DONT_CONSENT when you reject those exact terms.
+
+    Your CONSENT completes the deal. Your DONT_CONSENT rejects the proposal; negotiation can continue within the remaining turn budget.
+
+    Which action ({actions})?
+
+    [CURRENT GAME STATE]:
+    {game_state}
+
+    [ALLOWED ACTIONS]:
+    {actions}
+
+    [RESPONSE FORMAT]:
+    Respond using the complete format below. Set ACTION to exactly one of: {actions}
+
+    ```
+    THINKING: <your private reasoning; this is logged for research but never sent to your agent>
+    ACTION: {actions}
+    OUTPUT: <message delivered to your agent; never include or summarize THINKING here>
+    ```
+
+  actions:
+    - CONSENT
+    - DONT_CONSENT
+
+  actions_guidance:
+    - FURTHER_INSTRUCT
+
+  actions_initial_guidance:
+    - FURTHER_INSTRUCT
+
+  actions_final_decision:
+    - CONSENT
+    - DONT_CONSENT

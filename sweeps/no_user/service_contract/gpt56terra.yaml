@@ -1,0 +1,23 @@
+# no_user: service_contract, gpt-5.6-terra.
+# Logs: data/raw/no_user/n100_principal_bench_stripped_capit_anchored_01_gpt56terra/
+sweep_id: n100_principal_bench_stripped_capit_anchored_01_gpt56terra
+n_runs: 100
+combos:
+- id: wo_user_wo_instructions
+  base: configs/principal_bench_stripped/think_no_user_luna.yaml
+  base_id: think_no_user_luna
+  label: wo_user_wo_instructions
+  metadata:
+    game: principal_bench_stripped
+    setting_id: pb-capit-anchored-01
+    with_user: false
+  overrides:
+    log_dir: logs/no_user
+    agent_1.provider: openai
+    agent_1.model: gpt-5.6-terra
+    agent_1.api_key_name: OPENAI_API_KEY
+    agent_2.provider: openai
+    agent_2.model: gpt-5.6-terra
+    agent_2.api_key_name: OPENAI_API_KEY
+    game_params.setting_id: pb-capit-anchored-01
+  n_runs: 100

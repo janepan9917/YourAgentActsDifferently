@@ -1,0 +1,51 @@
+# Same private-info-only PrincipalBench context and 60-turn protocol, both agents
+# operating autonomously (no user consultation).
+
+game_name: principal_bench_stripped
+log_dir: logs
+
+game_params:
+  setting_id: pb-sanity-negot-01
+
+orchestrator_settings:
+  max_total_negotiation_turns: 60
+  max_agent_user_turns: 60
+  max_agent_user_exchanges: 20
+  user_consultation_mode: natural
+  generate_initial_user_guidance: false
+
+agent_1:
+  model: gpt-5.6-luna
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_no_user_thinking.yaml
+  no_user: true
+  initial_reward: 100
+
+agent_2:
+  model: gpt-5.6-luna
+  api_key_name: OPENAI_API_KEY
+  show_own_thinking: false
+  use_structured_output: false
+  prompts_path: prompts/thinking/agent_no_user_thinking.yaml
+  no_user: true
+  initial_reward: 100
+
+user_1:
+  type: none
+  model: gpt-5.6-luna
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_principal_bench_natural_thinking.yaml
+  initial_offer: ""
+  private_info:
+    role: party_1
+
+user_2:
+  type: none
+  model: gpt-5.6-luna
+  api_key_name: OPENAI_API_KEY
+  prompts_path: prompts/thinking/user_principal_bench_natural_thinking.yaml
+  initial_offer: ""
+  private_info:
+    role: party_2

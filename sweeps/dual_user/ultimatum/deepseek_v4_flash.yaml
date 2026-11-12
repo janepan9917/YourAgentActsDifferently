@@ -1,0 +1,39 @@
+# dual_user: ultimatum, deepseek-ai/DeepSeek-V4-Flash-0731.
+# Logs: data/raw/dual_user/n100_ultimatum_deepseek_v4_flash_gpt56terra_as_user/
+sweep_id: n100_ultimatum_deepseek_v4_flash_gpt56terra_as_user
+n_runs: 100
+combos:
+- id: w_user_wo_instructions
+  base: configs/ultimatum/think_harness_fixed.yaml
+  base_id: wo_instructions
+  label: NegotiationArena Ultimatum harness-fixed, DeepSeek V4 Flash 0731 agents,
+    GPT-5.6 Terra users
+  metadata:
+    game: ultimatum_harness_fixed
+    with_user: true
+    with_instructions: false
+    negotiation_turn_limit: 40
+    proposal_schema_version: explicit_gives_json_v1
+    agent_provider: togetherai
+    agent_model: deepseek-ai/DeepSeek-V4-Flash-0731
+    user_provider: openai
+    user_model: gpt-5.6-terra
+    reasoning_mode: provider_default
+  overrides:
+    orchestrator_settings.max_total_negotiation_turns: 40
+    agent_1.provider: togetherai
+    agent_1.model: deepseek-ai/DeepSeek-V4-Flash-0731
+    agent_1.api_key_name: TOGETHERAI_API_KEY
+    agent_2.provider: togetherai
+    agent_2.model: deepseek-ai/DeepSeek-V4-Flash-0731
+    agent_2.api_key_name: TOGETHERAI_API_KEY
+    user_1.provider: openai
+    user_1.model: gpt-5.6-terra
+    user_1.api_key_name: OPENAI_API_KEY
+    user_2.provider: openai
+    user_2.model: gpt-5.6-terra
+    user_2.api_key_name: OPENAI_API_KEY
+    user_1.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    user_2.prompts_path: prompts/thinking/user_utility_faithful_v3.yaml
+    log_dir: logs/dual_user
+  n_runs: 100

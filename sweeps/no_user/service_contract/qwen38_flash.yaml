@@ -1,0 +1,37 @@
+# no_user: service_contract, Qwen/Qwen3.8-Flash.
+# Logs: data/raw/no_user/n100_principal_bench_stripped_capit_anchored_01_qwen38_flash/
+sweep_id: n100_principal_bench_stripped_capit_anchored_01_qwen38_flash
+n_runs: 100
+combos:
+- id: wo_user_wo_instructions
+  base: configs/principal_bench_stripped/think_no_user_luna.yaml
+  base_id: think_no_user_luna
+  label: wo_user_wo_instructions
+  metadata:
+    game: principal_bench_stripped
+    setting_id: pb-capit-anchored-01
+    with_user: false
+  overrides:
+    agent_1.provider: togetherai
+    agent_1.model: Qwen/Qwen3.8-Flash
+    agent_1.api_key_name: TOGETHERAI_API_KEY
+    agent_1.max_tokens: 8192
+    agent_1.stream: true
+    agent_2.provider: togetherai
+    agent_2.model: Qwen/Qwen3.8-Flash
+    agent_2.api_key_name: TOGETHERAI_API_KEY
+    agent_2.max_tokens: 8192
+    agent_2.stream: true
+    user_1.provider: togetherai
+    user_1.model: Qwen/Qwen3.8-Flash
+    user_1.api_key_name: TOGETHERAI_API_KEY
+    user_1.max_tokens: 8192
+    user_1.stream: true
+    user_2.provider: togetherai
+    user_2.model: Qwen/Qwen3.8-Flash
+    user_2.api_key_name: TOGETHERAI_API_KEY
+    user_2.max_tokens: 8192
+    user_2.stream: true
+    game_params.setting_id: pb-capit-anchored-01
+    log_dir: logs/no_user
+  n_runs: 100
