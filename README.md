@@ -112,6 +112,11 @@ Logs are written to `logs/<setting>/<sweep_id>/<combo>/<run_id>/`.
 | `tests/` | Offline tests with scripted model replies (no API calls) |
 | `data/` | Runs, judge labels and processed tables (distributed separately, see [Data](#-data)) |
 
+## ⚖️ License
+
+The code is released under the [MIT License](LICENSE). The data is released under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
 ## 📚 Citation
 
 ```bibtex
